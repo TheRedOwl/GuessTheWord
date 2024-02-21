@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
+    <title>Document</title>
+
+    <style>
+        .container{
+            width: 100%;
+        }
+        .abc{
+            width: 100%;
+            display: flex;
+            justify-content: space-between;
+        }
+        .abcWords{
+            text-align: center;
+            width: 30px;
+            height: 30px;
+            border: 1px black solid;
+        }
+        .winnerWord{
+            display: flex;
+            justify-content: center;
+        }
+        .winnerLetters{
+            text-align: center;
+            width: 80px;
+            height: 80px;
+            border: 1px black solid;
+        }
+        .winnerLetters>p{
+            font-size: x-large;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="winnerWord"></div>
+        <div class="abc"></div>
+    </div>
+
+    <script src="words.js"></script>
+    <script>
+        const str="jsahfasdgfdgfiasuidkh"
+        console.log(Array.from(str));
+        console.log(str[3],str.split(""));
+        const diak={nev: "Gyula",kor: 20}
+        /*let nev=diak.nev
+        let kor=diak.kor*/
+
+        let {nev,kor}=diak
+        console.log(nev,kor);
+        const arr=[123124,43013]
+        let [nr1,nr2]=arr
+        console.log(nr1,nr2);
+
+        /*words.forEach((guessWord)=>{
+            console.log(guessWord[3]);
+        })*/
+
+        function getRandomInt(max) {
+            return Math.floor(Math.random() * max);
+        }
+
+        //console.log(words.length);
+
+       let guessWord=words[getRandomInt(words.length+1)]
+       guessWord.split("").forEach((guessLetters)=>{
+            document.querySelector(".winnerWord").innerHTML+=`<div class="winnerLetters"><p class="d-none">${guessLetters}</p></div>`
+       })
+
+        abc.split("").forEach((obj) => {
+            document.querySelector(".abc").innerHTML+=`<div class="abcWords" type="button" onclick="putInLetter(this)">${obj}</div>`
+        });
+
+        function putInLetter(letter){
+            console.log(letter.innerHTML);
+            
+        }
+    </script>
+</body>
+</html>
