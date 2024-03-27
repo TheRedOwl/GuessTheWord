@@ -7,6 +7,9 @@
     <title>Document</title>
 
     <style>
+        body{
+            display: flex;
+        }
         .container{
             width: 100%;
         }
@@ -23,7 +26,8 @@
         }
         .winnerWord{
             display: flex;
-            justify-content: center;
+            justify-content: space-between;
+            padding: 10px;
         }
         .winnerLetters{
             text-align: center;
@@ -34,12 +38,21 @@
         .winnerLetters>p{
             font-size: x-large;
         }
+        .win{
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
     </style>
 </head>
 <body>
     <div class="container">
         <div class="winnerWord"></div>
         <div class="abc"></div>
+        <div class="win">
+            <div class="winText"><h2></h2></div>
+            <div class="restartButton d-none"><button class="restart">Új játék</button></div>
+        </div>
     </div>
 
     <script src="words.js"></script>
@@ -67,19 +80,74 @@
 
         //console.log(words.length);
 
+        let number=0
+
        let guessWord=words[getRandomInt(words.length+1)]
        guessWord.split("").forEach((guessLetters)=>{
-            document.querySelector(".winnerWord").innerHTML+=`<div class="winnerLetters"><p class="d-none">${guessLetters}</p></div>`
+            number++
+            document.querySelector(".winnerWord").innerHTML+=`<div class="winnerLetters"><p class="d-none winnerLetterValue id${number}">${guessLetters}</p></div>`
        })
 
         abc.split("").forEach((obj) => {
             document.querySelector(".abc").innerHTML+=`<div class="abcWords" type="button" onclick="putInLetter(this)">${obj}</div>`
         });
 
+        const winningList = {num:"letter"}
+
+        number=0
+
+        document.querySelectorAll(".winnerLetterValue").forEach((winnerLetters)=>{
+            number++
+            winningList[number]="d-none"
+        })
+
+        console.log(winningList);
+
+        let won=0
+        let letterList=[]
+        
         function putInLetter(letter){
-            console.log(letter.innerHTML);
+            number=0
+            document.querySelectorAll(".winnerLetterValue").forEach((winnerLetters)=>{
+                letterList.push(winnerLetters.innerHTML)
+                console.log(letterList);
+                number++
+                delete(winningList.num)
+                if(letter.innerHTML==winnerLetters.innerHTML){
+                    winnerLetters.classList.remove("d-none")
+                    if(winnerLetters.classList.contains(`id${number}`)){
+                        winningList[number]=""
+                        won+=1
+                    }
+                }
+                
+            })
+
+            if(won==letterList.length){
+                document.querySelector("h2").innerHTML="Nyertél"
+                document.querySelector(".restartButton").classList.remove("d-none")
+            }
+
+            letterList=[]
             
         }
+
+        document.querySelector(".restart").addEventListener("click",restartGame)
+
+        function restartGame(){
+            document.querySelector(".winnerWord").innerHTML=""
+            document.querySelector("h2").innerHTML=""
+            document.querySelector(".restartButton").classList.add("d-none")
+            letterList=[]
+            won=0
+            number=0
+            let guessWord=words[getRandomInt(words.length+1)]
+            guessWord.split("").forEach((guessLetters)=>{
+                number++
+                document.querySelector(".winnerWord").innerHTML+=`<div class="winnerLetters"><p class="d-none winnerLetterValue id${number}">${guessLetters}</p></div>`
+            })
+        }
+
     </script>
 </body>
 </html>
